@@ -1,5 +1,6 @@
 const Product = require("../../models/product.model");
 const filterHelper = require("../../helpers/filter.helper");
+const paginationHelper = require("../../helpers/pagination.helper");
 // [GET] /admin/products/
 module.exports.index = async (req, res) => {
   const find = {
@@ -15,26 +16,15 @@ module.exports.index = async (req, res) => {
   // End Filter
   
   // Search
-  if(req.query.keyword) {
+  if (req.query.keyword) {
     const regex = new RegExp(req.query.keyword, "i");
     find.title = regex;
   }
   // End Search 
 
   // Pagination
-  const objectPagination = {
-    currentPage: 1,
-    limitItems: 4
-  }
-
-  if (req.query.page) {
-    objectPagination.currentPage = parseInt(req.query.page);
-  }
-
-  objectPagination.skip = (objectPagination.currentPage - 1) * objectPagination.limitItems;
-
   const countRecords = await Product.countDocuments(find);
-  objectPagination.totalPage = Math.ceil(countRecords / objectPagination.limitItems);
+  const objectPagination = paginationHelper(req, countRecords);
   // End Pagination
 
   const products = await Product
