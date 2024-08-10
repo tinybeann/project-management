@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const database = require("./config/database");
 const systemConfig = require("./config/system");
+const methodOverride = require('method-override');
 
 dotenv.config();
 
@@ -17,6 +18,8 @@ app.set("views", "./views");
 app.set("view engine", "pug");
 
 app.use(express.static('public'));
+
+app.use(methodOverride('_method'));
 
 // App Local Variables
 app.locals.prefixAdmin = systemConfig.prefixAdmin;

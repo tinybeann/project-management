@@ -5,7 +5,7 @@ const controller = require("../../controllers/admin/product.controller");
 
 router.get("/", controller.index);
 
-router.get(
+router.patch(
   "/change-status/:status/:id", 
   controller.changeStatus
 );

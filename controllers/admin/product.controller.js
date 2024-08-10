@@ -47,7 +47,7 @@ module.exports.index = async (req, res) => {
   }
 }
 
-// [GET] /admin/product/:status/:id
+// [PATCH] /admin/product/:status/:id
 module.exports.changeStatus = async (req, res) => {
   try {
     const status = req.params.status;
