@@ -46,3 +46,23 @@ module.exports.index = async (req, res) => {
     res.redirect(`/${systemConfig.prefixAdmin}/dashboard`); 
   }
 }
+
+// [GET] /admin/product/:status/:id
+module.exports.changeStatus = async (req, res) => {
+  try {
+    const status = req.params.status;
+    const id = req.params.id;
+  
+    await Product.updateOne({
+      _id: id
+    }, {
+      status: status
+    });
+  
+    res.redirect(`back`);
+  }
+  catch (error) {
+    console.log(error);
+    res.redirect(`/${systemConfig.prefixAdmin}/dashboard`);
+  }
+}
