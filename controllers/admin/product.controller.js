@@ -8,32 +8,33 @@ module.exports.index = async (req, res) => {
     const find = {
       deleted: false
     }
-  
+
     if (req.query.status) {
       find.status = req.query.status;
     }
-  
+
     //  Filter 
     const filterStatus = filterHelper(req);
     // End Filter
-    
+
     // Search
     if (req.query.keyword) {
       const regex = new RegExp(req.query.keyword, "i");
       find.title = regex;
     }
     // End Search 
-  
+
     // Pagination
     const countRecords = await Product.countDocuments(find);
     const objectPagination = paginationHelper(req, countRecords);
     // End Pagination
-  
+
     const products = await Product
       .find(find)
       .limit(objectPagination.limitItems)
-      .skip(objectPagination.skip);  
-  
+      .skip(objectPagination.skip)
+      .sort({ position: "asc" });
+
     res.render("admin/pages/products/index", {
       pageTitle: "Danh sách sản phẩm",
       products: products,
@@ -41,9 +42,9 @@ module.exports.index = async (req, res) => {
       keyword: req.query.keyword,
       objectPagination: objectPagination
     });
-  } catch(error) {
+  } catch (error) {
     console.log(error);
-    res.redirect(`/${systemConfig.prefixAdmin}/dashboard`); 
+    res.redirect(`/${systemConfig.prefixAdmin}/dashboard`);
   }
 }
 
@@ -52,13 +53,13 @@ module.exports.changeStatus = async (req, res) => {
   try {
     const status = req.params.status;
     const id = req.params.id;
-  
+
     await Product.updateOne({
       _id: id
     }, {
       status: status
     });
-  
+
     res.redirect(`back`);
   }
   catch (error) {
@@ -82,12 +83,23 @@ module.exports.changeMulti = async (req, res) => {
         status: type
       });
       break;
-          case "delete-all":
+    case "delete-all":
       await Product.updateMany({
         _id: { $in: ids }
       }, {
         deleted: true
       });
+    case "change-position":
+      for (const item of ids) {
+        let [id, position] = item.split("-");
+        position = parseInt(position);
+        await Product.updateOne({
+          _id: id
+        }, {
+          position: position
+        });
+      }
+      break;
     default:
       break;
   }

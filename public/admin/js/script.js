@@ -1,8 +1,8 @@
 // Button Status
 const buttonStatus = document.querySelectorAll("[button-status]");
-if(buttonStatus.length > 0) {
+if (buttonStatus.length > 0) {
   let url = new URL(window.location.href);
-  
+
   buttonStatus.forEach((button) => {
     button.addEventListener("click", () => {
       const status = button.getAttribute("button-status");
@@ -12,27 +12,27 @@ if(buttonStatus.length > 0) {
         url.searchParams.delete("status");
       }
       window.location.href = url.href;
-    })
-  })
+    });
+  });
 }
 // End Button Status
 
 // Search
 const formSearch = document.querySelector("#form-search");
-if(formSearch) {
+if (formSearch) {
   let url = new URL(window.location.href);
 
   formSearch.addEventListener("submit", (event) => {
     event.preventDefault();
 
     const keyword = event.target.elements.keyword.value;
-    if(keyword) {
+    if (keyword) {
       url.searchParams.set("keyword", keyword);
     } else {
       url.searchParams.delete("keyword");
     }
     window.location.href = url.href;
-  })
+  });
 }
 // End Search
 
@@ -41,7 +41,7 @@ const listButtonPagination = document.querySelectorAll("[button-pagination]");
 if (listButtonPagination.length > 0) {
   let url = new URL(window.location.href);
 
-  listButtonPagination.forEach(button => {
+  listButtonPagination.forEach((button) => {
     button.addEventListener("click", () => {
       const page = button.getAttribute("button-pagination");
       url.searchParams.set("page", page);
@@ -52,11 +52,13 @@ if (listButtonPagination.length > 0) {
 // End Button Pagination
 
 // button-change-status
-const listButtonChangeStatus = document.querySelectorAll("[button-change-status]");
+const listButtonChangeStatus = document.querySelectorAll(
+  "[button-change-status]"
+);
 if (listButtonChangeStatus.length > 0) {
   const formChangeStatus = document.querySelector("[form-change-status]");
 
-  listButtonChangeStatus.forEach(button => {
+  listButtonChangeStatus.forEach((button) => {
     button.addEventListener("click", () => {
       const id = button.getAttribute("data-id");
       const status = button.getAttribute("data-status");
@@ -80,19 +82,21 @@ if (checkboxMulti) {
 
   inputCheckAll.addEventListener("click", () => {
     if (inputCheckAll.checked) {
-      listInputId.forEach(input => {
+      listInputId.forEach((input) => {
         input.checked = true;
       });
     } else {
-      listInputId.forEach(input => {
+      listInputId.forEach((input) => {
         input.checked = false;
       });
     }
   });
 
-  listInputId.forEach(inputId => {
+  listInputId.forEach((inputId) => {
     inputId.addEventListener("click", () => {
-      const countInputIdChecked = checkboxMulti.querySelectorAll("input[name='id']:checked").length;
+      const countInputIdChecked = checkboxMulti.querySelectorAll(
+        "input[name='id']:checked"
+      ).length;
       const lengthInputId = listInputId.length;
 
       if (countInputIdChecked == lengthInputId) {
@@ -112,13 +116,25 @@ if (formChangeMulti) {
     event.preventDefault();
 
     const type = formChangeMulti.querySelector("select[name='type']").value;
-    const listInputIdChecked = document.querySelectorAll("input[name='id']:checked");
+    // const type = event.target.elements.type.value;
+    console.log(type);
+    const listInputIdChecked = document.querySelectorAll(
+      "input[name='id']:checked"
+    );
     if (listInputIdChecked.length > 0) {
       const ids = [];
 
-      listInputIdChecked.forEach(input => {
+      listInputIdChecked.forEach((input) => {
         const id = input.value;
-        ids.push(id);
+
+        if (type == "change-position") {
+          const position = input
+            .closest("tr")
+            .querySelector("input[name='position']").value;
+          ids.push(`${id}-${position}`);
+        } else {
+          ids.push(id);
+        }
       });
 
       const stringIds = ids.join(", ");
@@ -132,7 +148,7 @@ if (formChangeMulti) {
           return;
         }
       }
-      
+
       formChangeMulti.submit();
     } else {
       alert("Vui lòng chọn ít nhất 1 bản ghi!");
@@ -146,7 +162,7 @@ const listButtonDelete = document.querySelectorAll("[button-delete]");
 if (listButtonDelete.length > 0) {
   const formDeleteItem = document.querySelector("[form-delete-item]");
 
-  listButtonDelete.forEach(button => {
+  listButtonDelete.forEach((button) => {
     button.addEventListener("click", () => {
       const isConfirm = confirm("Bạn có chắc muốn xóa?");
 
