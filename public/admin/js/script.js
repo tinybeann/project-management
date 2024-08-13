@@ -111,6 +111,7 @@ if (formChangeMulti) {
   formChangeMulti.addEventListener("submit", (event) => {
     event.preventDefault();
 
+    const type = formChangeMulti.querySelector("select[name='type']").value;
     const listInputIdChecked = document.querySelectorAll("input[name='id']:checked");
     if (listInputIdChecked.length > 0) {
       const ids = [];
@@ -125,6 +126,13 @@ if (formChangeMulti) {
       const input = formChangeMulti.querySelector("input[name='ids']");
       input.value = stringIds;
 
+      if (type == "delete-all") {
+        const isConfirm = confirm("Bạn có chắc muốn xóa những bản ghi này?");
+        if (!isConfirm) {
+          return;
+        }
+      }
+      
       formChangeMulti.submit();
     } else {
       alert("Vui lòng chọn ít nhất 1 bản ghi!");
