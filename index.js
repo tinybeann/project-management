@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const database = require("./config/database");
 const systemConfig = require("./config/system");
 const methodOverride = require('method-override');
+const bodyParser = require("body-parser");
 
 dotenv.config();
 
@@ -20,6 +21,9 @@ app.set("view engine", "pug");
 app.use(express.static('public'));
 
 app.use(methodOverride('_method'));
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // App Local Variables
 app.locals.prefixAdmin = systemConfig.prefixAdmin;

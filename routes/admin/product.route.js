@@ -10,4 +10,9 @@ router.patch(
   controller.changeStatus
 );
 
+router.patch(
+  "/change-multi", 
+  controller.changeMulti
+);
+
 module.exports = router;

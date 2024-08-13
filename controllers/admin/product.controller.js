@@ -47,7 +47,7 @@ module.exports.index = async (req, res) => {
   }
 }
 
-// [PATCH] /admin/product/:status/:id
+// [PATCH] /admin/products/:status/:id
 module.exports.changeStatus = async (req, res) => {
   try {
     const status = req.params.status;
@@ -65,4 +65,26 @@ module.exports.changeStatus = async (req, res) => {
     console.log(error);
     res.redirect(`/${systemConfig.prefixAdmin}/dashboard`);
   }
+}
+
+// [PATCH] /admin/products/change-multi
+module.exports.changeMulti = async (req, res) => {
+  const type = req.body.type;
+  let ids = req.body.ids;
+  ids = ids.split(", ");
+
+  switch (type) {
+    case "active":
+    case "inactive":
+      await Product.updateMany({
+        _id: { $in: ids }
+      }, {
+        status: type
+      });
+      break;
+    default:
+      break;
+  }
+
+  res.redirect(`back`);
 }
