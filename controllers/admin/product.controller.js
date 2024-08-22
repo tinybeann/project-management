@@ -61,7 +61,7 @@ module.exports.changeStatus = async (req, res) => {
     });
 
     req.flash('success', 'Cập nhật trạng thái thành công!');
-    
+
     res.redirect(`back`);
   }
   catch (error) {
@@ -84,6 +84,7 @@ module.exports.changeMulti = async (req, res) => {
       }, {
         status: type
       });
+      req.flash('success', 'Cập nhật trạng thái thành công!');
       break;
     case "delete-all":
       await Product.updateMany({
@@ -91,6 +92,8 @@ module.exports.changeMulti = async (req, res) => {
       }, {
         deleted: true
       });
+      req.flash('success', 'Xóa sản phẩm thành công!');
+      break;
     case "change-position":
       for (const item of ids) {
         let [id, position] = item.split("-");
@@ -101,6 +104,7 @@ module.exports.changeMulti = async (req, res) => {
           position: position
         });
       }
+      req.flash('success', 'Thay đổi vị trí sản phẩm thành công!');
       break;
     default:
       break;
@@ -118,6 +122,8 @@ module.exports.deleteItem = async (req, res) => {
   }, {
     deleted: true
   });
+
+  req.flash('success', 'Xóa sản phẩm thành công!');
 
   res.redirect("back");
 }
