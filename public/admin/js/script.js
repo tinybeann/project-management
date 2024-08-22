@@ -118,9 +118,7 @@ if (formChangeMulti) {
     const type = formChangeMulti.querySelector("select[name='type']").value;
     // const type = event.target.elements.type.value;
     console.log(type);
-    const listInputIdChecked = document.querySelectorAll(
-      "input[name='id']:checked"
-    );
+    const listInputIdChecked = document.querySelectorAll("input[name='id']:checked");
     if (listInputIdChecked.length > 0) {
       const ids = [];
 

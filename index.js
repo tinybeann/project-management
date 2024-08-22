@@ -4,6 +4,9 @@ const database = require("./config/database");
 const systemConfig = require("./config/system");
 const methodOverride = require('method-override');
 const bodyParser = require("body-parser");
+const flash = require('express-flash');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 dotenv.config();
 
@@ -14,6 +17,12 @@ const routesAdmin = require("./routes/admin/index.route");
 
 const app = express();
 const port = process.env.PORT;
+
+// Flash
+app.use(cookieParser('JHSVBDSDSD'));
+app.use(session({ cookie: { maxAge: 60000 } }));
+app.use(flash());
+// End Flash
 
 app.set("views", "./views");
 app.set("view engine", "pug");
