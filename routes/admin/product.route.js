@@ -1,5 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const multer = require('multer')
+
+const storage = require("../../helpers/storageMulter.helper");
+const upload = multer({ storage: storage });
 
 const controller = require("../../controllers/admin/product.controller");
 
@@ -27,6 +31,7 @@ router.get(
 
 router.post(
   "/create",
+  upload.single('thumbnail'),
   controller.createPost
 )
 module.exports = router;
