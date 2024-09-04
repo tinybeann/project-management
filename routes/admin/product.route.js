@@ -7,6 +7,9 @@ const upload = multer({ storage: storage });
 
 const controller = require("../../controllers/admin/product.controller");
 
+const validate = require("../../validates/admin/product.validate");
+
+
 router.get("/", controller.index);
 
 router.patch(
@@ -32,6 +35,7 @@ router.get(
 router.post(
   "/create",
   upload.single('thumbnail'),
+  validate.createPost,
   controller.createPost
 )
 module.exports = router;
