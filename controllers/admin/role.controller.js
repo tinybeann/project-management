@@ -61,3 +61,18 @@ module.exports.editPatch = async (req, res) => {
 
   res.redirect(`/${systemConfig.prefixAdmin}/roles`);
 }
+
+// [DELETE] /admin/roles/delete/:id
+module.exports.deleteItem = async (req, res) => {
+  const id = req.params.id;
+
+  await Role.updateOne({
+    _id: id
+  }, {
+    deleted: true
+  });
+
+  req.flash('success', 'Xóa quyền thành công!');
+
+  res.redirect("back");
+}
