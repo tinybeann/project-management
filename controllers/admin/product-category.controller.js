@@ -20,7 +20,7 @@ module.exports.create = async (req, res) => {
     deleted: false
   });
 
-  const newRecord = creatTreeHelper(records);
+  const newRecord = createTreeHelper(records);
 
   res.render("admin/pages/products-category/create", {
     pageTitle: "Thêm mới danh mục sản phẩm",
@@ -65,7 +65,6 @@ module.exports.edit = async (req, res) => {
     res.redirect(`/${systemConfig.prefixAdmin}/products-category`);
   }
 };
-
 // [PATCH] /admin/products-category/edit/:id
 module.exports.editPatch = async (req, res) => {
   const id = req.params.id;
