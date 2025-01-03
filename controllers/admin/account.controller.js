@@ -15,6 +15,14 @@ module.exports.index = async (req, res) => {
   // End Find
   
   const records = await Account.find(find);
+
+  for (const record of records) {
+    const roles = await Role.findOne({
+      _id: record.role_id
+    })
+    record.roleTitle = roles.title;
+  }
+
   res.render("admin/pages/accounts/index", {
     pageTitle: "Danh sách tài khoản",
     records: records
