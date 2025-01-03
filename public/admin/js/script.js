@@ -249,3 +249,64 @@ if(sort) {
   }
 }
 // End Sort 
+
+// Table permissions
+const buttonSubmitPermissions = document.querySelector("[button-submit-permissions]");
+if(buttonSubmitPermissions) {
+  buttonSubmitPermissions.addEventListener("click", () => {
+    const roles = [];
+    const tablePermissions = document.querySelector("[table-permissions]");
+    const rows = tablePermissions.querySelectorAll("tbody tr[data-name]");
+
+    rows.forEach(row => {
+      const dataName = row.getAttribute("data-name");
+      const inputs = row.querySelectorAll("input");
+
+      if(dataName == "id") {
+        inputs.forEach(input => {
+          const id = input.getAttribute("value");
+          roles.push({
+            id: id,
+            permissions: []
+          });
+        });
+      } else {
+        inputs.forEach((input, index) => {
+          const inputChecked = input.checked; 
+          if(inputChecked) {
+            roles[index].permissions.push(dataName);
+          }
+        });
+      }
+    })
+    if(roles) {
+      const formChangePermissions = document.querySelector("[form-change-permissions]")
+      const inputRoles = formChangePermissions.querySelector("[name='roles']")
+      inputRoles.value = JSON.stringify(roles);
+      formChangePermissions.submit();
+    }
+  })
+}
+// End Table permissions
+
+// Data default Table Permissions
+const dataRecords = document.querySelector("[data-records]");
+if(dataRecords) {
+  const records = JSON.parse(dataRecords.getAttribute("data-records"))
+  const tablePermissions = document.querySelector("[table-permissions]")
+
+  records.forEach((record, index) => {
+    const permissions = record.permissions;
+
+    permissions.forEach(permission => {
+      const row = tablePermissions.querySelector(`tr[data-name="${permission}"]`);
+      const input = row.querySelectorAll("input")[index];
+      console.log(input);
+      input.checked = true;
+    });
+  });
+  // records.forEach(record => {
+  //   console.log(record.permissions);
+  // });
+}
+// End Data default Table Permissions

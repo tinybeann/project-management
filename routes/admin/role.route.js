@@ -21,4 +21,14 @@ router.delete(
   controller.deleteItem
 )
 
+router.get(
+  "/permissions", 
+  controller.permissions
+);
+
+router.patch(
+  "/permissions", 
+  controller.permissionsPatch
+);
+
 module.exports = router;
