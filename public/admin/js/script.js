@@ -301,12 +301,8 @@ if(dataRecords) {
     permissions.forEach(permission => {
       const row = tablePermissions.querySelector(`tr[data-name="${permission}"]`);
       const input = row.querySelectorAll("input")[index];
-      console.log(input);
       input.checked = true;
     });
   });
-  // records.forEach(record => {
-  //   console.log(record.permissions);
-  // });
 }
 // End Data default Table Permissions
