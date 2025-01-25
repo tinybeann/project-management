@@ -5,6 +5,17 @@ const systemConfig = require("../../config/system");
 
 // [GET] /admin/auth/login
 module.exports.login = async (req, res) => {
+  if(req.cookies.token){
+    const token = req.cookies.token;
+  
+    const user = Account.findOne({
+      token: token
+    })
+  
+    if(user) {
+      res.redirect(`/${systemConfig.prefixAdmin}/dashboard`);
+    }
+  }
   res.render("admin/pages/auth/login", {
     pageTitle: "Đăng nhập",
   });
