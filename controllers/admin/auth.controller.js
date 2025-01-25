@@ -5,14 +5,14 @@ const systemConfig = require("../../config/system");
 
 // [GET] /admin/auth/login
 module.exports.login = async (req, res) => {
-  if(req.cookies.token){
+  if (req.cookies.token) {
     const token = req.cookies.token;
-  
+
     const user = Account.findOne({
       token: token
     })
-  
-    if(user) {
+
+    if (user) {
       res.redirect(`/${systemConfig.prefixAdmin}/dashboard`);
     }
   }
@@ -31,13 +31,13 @@ module.exports.loginPost = async (req, res) => {
     deleted: false
   });
 
-  if(!user) {
+  if (!user) {
     req.flash("error", "Email không tồn tại");
     res.redirect("back");
     return;
   }
 
-  if(user.password != password) {
+  if (user.password != password) {
     req.flash("error", "Sai mật khẩu");
     res.redirect("back");
     return;
@@ -48,7 +48,7 @@ module.exports.loginPost = async (req, res) => {
     res.redirect("back");
     return;
   }
-  
+
   res.cookie("token", user.token);
   res.redirect(`/${systemConfig.prefixAdmin}/dashboard`);
 };
